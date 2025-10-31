@@ -1,6 +1,5 @@
 from datetime import datetime, timezone
 import re
-from constants import DATABASE_ID
 
 # Get current time in UTC
 current_time = datetime.now(timezone.utc).isoformat()
@@ -8,7 +7,7 @@ current_time = datetime.now(timezone.utc).isoformat()
 
 def convert_imdb_to_notion(imdb_data, is_downloaded, show_id):
     """
-    converts retriven data from imdb to notion format
+    converts retrieved data from imdb to notion format
     """
     year_str = re.sub(r"\D", "", imdb_data["Year"])
     duration_mins_str = re.sub(r"\D", "", imdb_data["Runtime"])
