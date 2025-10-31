@@ -5,7 +5,7 @@ from imdb_to_notion_adaptor import convert_imdb_to_notion
 
 def add_show_to_notion():
     """
-    Takes name of the show and other parameters and adds it to Notion database
+    Takes name of the show from the user and adds it to Notion database
     """
     print("Hi! \nThis is IMDB to Notion script!\n")
     search_str = input("Enter Movie or Series name: ")

@@ -47,7 +47,7 @@ def convert_imdb_to_notion(imdb_data, is_downloaded, show_id):
 
 def get_text_type(text, is_rich_text=False):
     """
-    convert text data to rich_text format
+    converts text data to notion's text or rich_text format
     """
     value = [
         {
