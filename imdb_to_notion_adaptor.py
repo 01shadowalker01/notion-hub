@@ -1,5 +1,11 @@
 from datetime import datetime, timezone
+import os
 import re
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SHOWS_DATABASE_ID = os.environ["SHOWS_DATABASE_ID"]
 
 # Get current time in UTC
 current_time = datetime.now(timezone.utc).isoformat()
@@ -14,7 +20,7 @@ def convert_imdb_to_notion(imdb_data, is_downloaded, show_id):
     notion_data = {
         "created_time": current_time,
         "cover": {"external": {"url": imdb_data["Poster"]}},
-        "parent": {"database_id": "276949fe923b80e1ab58f64f5a5da329"},
+        "parent": {"database_id": SHOWS_DATABASE_ID},
         "properties": {
             "Name": get_text_type(imdb_data["Title"]),
             "Type": {
@@ -74,9 +80,8 @@ def get_text_type(text, is_rich_text=False):
 
 def get_multi_select(data_str):
     """
-    convert text data to multi_select format
+    converts text data to multi_select format
     """
     array = data_str.split(",")
     select_data = list(map(lambda item: {"name": item.strip()}, array))
-    print(select_data)
     return select_data
