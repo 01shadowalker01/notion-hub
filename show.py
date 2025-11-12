@@ -1,4 +1,5 @@
 import imdb
+import sys
 from notion import create_page
 from utils import convert_bytes_to_dict, pretty_print_dict, pretty_print_json
 from imdb_to_notion_adaptor import convert_imdb_to_notion
@@ -8,26 +9,32 @@ def add_show_to_notion():
     Takes name of the show from the user and adds it to Notion database
     """
     print("Hi! \nThis is IMDB to Notion script!\n")
-    search_str = input("Enter Movie or Series name: ")
+    show_id = ""
+    if len(sys.argv) > 1 and sys.argv[1].lower() == "--id":
+        show_id = sys.argv[2]
 
-    imdb_res = imdb.search_movie(search_str)
+    if show_id == "":
+        search_str = input("Enter Movie or Series name: ")
 
-    fetched_shows = imdb_res["result"]
-    if len(fetched_shows) < 1:
-        print("No result!")
-        # TODO: retry!
-        exit()
+        imdb_res = imdb.search_movie(search_str)
 
-    print("Now select one of the following:")
-    pretty_print_dict(fetched_shows)
+        fetched_shows = imdb_res["result"]
+        if len(fetched_shows) < 1:
+            print("No result!")
+            # TODO: retry!
+            exit()
 
-    selected_index = input("Movie index: ") 
-    selected_index = int(selected_index) - 1
+        print("Now select one of the following:")
+        pretty_print_dict(fetched_shows)
+
+        selected_index = input("Movie index: ") 
+        selected_index = int(selected_index) - 1
+
+        show_id = fetched_shows[selected_index]["imdbID"]
 
     downloaded_resp = input("Is Downloaded? (N/y): ")
     is_downloaded = downloaded_resp.lower() == "y"
 
-    show_id = fetched_shows[selected_index]["imdbID"]
     imdb_data = imdb.get_movie_by_id(show_id)
     pretty_print_dict(imdb_data)
 
