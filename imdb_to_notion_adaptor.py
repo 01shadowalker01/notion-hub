@@ -34,16 +34,16 @@ def convert_imdb_to_notion(imdb_data, is_downloaded, show_id):
             },
             "Cast": {"multi_select": get_multi_select(imdb_data["Actors"])},
             "Genre": {"multi_select": get_multi_select(imdb_data["Genre"])},
-            "Year": {"number": int(year_str)},
+            "Year": {"number": to_int(year_str)},
             "Rate": {"select": {"name": imdb_data["Rated"]}},
             "URL": {"url": "https://www.imdb.com/title/" + show_id},
-            "Imdb Score": {"number": float(imdb_data["imdbRating"])},
+            "Imdb Score": {"number": to_float(imdb_data["imdbRating"])},
             "Additional information ": get_text_type(
                 imdb_data["Plot"], is_rich_text=True
             ),
             "Director": get_text_type(imdb_data["Director"], is_rich_text=True),
             "Duration": get_text_type(imdb_data["Runtime"], is_rich_text=True),
-            "Duration (mins)": {"number": int(duration_mins_str)},
+            "Duration (mins)": {"number": to_int(duration_mins_str)},
             "Downloaded": {"checkbox": is_downloaded},
         },
     }
@@ -85,3 +85,15 @@ def get_multi_select(data_str):
     array = data_str.split(",")
     select_data = list(map(lambda item: {"name": item.strip()}, array))
     return select_data
+
+def to_int(data_str):
+    try:
+        return int(data_str)
+    except:
+        return None
+
+def to_float(data_str):
+    try:
+        return float(data_str)
+    except:
+        return None
